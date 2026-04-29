@@ -1,7 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "../src/lib/prisma";
 import fs from "fs";
 import path from "path";
-const prisma = new PrismaClient();
 
 async function deleteAllData(orderedFileNames: string[]) {
   const modelNames = orderedFileNames.map((fileName) => {
@@ -37,7 +36,7 @@ async function main() {
     "expenseByCategory.json",
   ];
 
-  await deleteAllData(orderedFileNames);
+  await deleteAllData([...orderedFileNames].reverse());
 
   for (const fileName of orderedFileNames) {
     const filePath = path.join(dataDirectory, fileName);
